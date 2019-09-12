@@ -4,11 +4,13 @@ import useForm from "react-hook-form"
 
 import { checkVin } from "api"
 import { FormGroup } from "components/Form"
+import Loading from "components/Loading"
 import { FormError } from "./utils"
 
 const VinSearchForm = ({
   setSearchResult,
   setHasFetched,
+  fetching,
   setFetching,
   setSearchFailed,
 }) => {
@@ -46,9 +48,13 @@ const VinSearchForm = ({
         </FormError>
       )}
 
-      <Button variant="primary" type="submit">
-        Search
-      </Button>
+      {fetching ? (
+        <Loading />
+      ) : (
+        <Button variant="primary" type="submit">
+          Search
+        </Button>
+      )}
     </form>
   )
 }

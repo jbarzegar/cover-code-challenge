@@ -1,5 +1,5 @@
 import React from "react"
-import { Flex, Text, Box, Link as ReLink } from "rebass"
+import { Flex, Text, Box, Link as ReLink, Button } from "rebass"
 import { Link as WouterLink } from "wouter"
 import { useLocationContext } from "state/location"
 
@@ -15,14 +15,17 @@ export default ({ hidden = false }) => {
       css={`
         display: ${hidden ? "none" : "flex"};
       `}
-      px={2}
-      color="white"
-      bg="black"
+      px={3}
+      py={2}
+      color="black"
+      bg="white"
       alignItems="center"
     >
-      <Link variant="nav" to="/">
+      <Link color="secondary" fontSize={4} variant="nav" to="/">
         AutoFind
       </Link>
+
+      <Box mx="auto" />
 
       <Link variant="nav" to="/city">
         <Flex
@@ -38,10 +41,17 @@ export default ({ hidden = false }) => {
           <Text>{`${currentLocation.components.city} ${currentLocation
             .components.neighbourhood ||
             currentLocation.components.state}`}</Text>
+          <Button
+            sx={{
+              fontSize: 0,
+              cursor: "pointer",
+            }}
+            ml={3}
+          >
+            Change Location
+          </Button>
         </Flex>
       </Link>
-
-      <Box mx="auto" />
     </Flex>
   )
 }

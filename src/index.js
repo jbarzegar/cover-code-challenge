@@ -6,9 +6,20 @@ import { LocationProvider } from "./state/location"
 import "./index.css"
 
 import App from "./App"
-
 render(
-  <ThemeProvider theme={theme}>
+  <ThemeProvider
+    theme={{
+      ...theme,
+      colors: {
+        ...theme.colors,
+        secondary: "#E90943",
+        primary: "#0A31AE",
+      },
+      radii: {
+        default: 20,
+      },
+    }}
+  >
     <LocationProvider>
       <App />
     </LocationProvider>

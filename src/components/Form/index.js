@@ -7,7 +7,7 @@ export const FormGroup = forwardRef(({ label, as = Input, ...props }, ref) => (
     css={`
       flex-direction: column;
     `}
-    width={1 / 2}
+    width={"100%"}
     my={2}
   >
     {label}

@@ -5,6 +5,7 @@ import { Checkbox, Label } from "@rebass/forms"
 
 import { checkMMY } from "api"
 import { FormGroup } from "components/Form"
+import Loading from "components/Loading"
 import { useLocationContext } from "state/location"
 
 import { FormError } from "./utils"
@@ -12,6 +13,7 @@ import { FormError } from "./utils"
 const CarSearchForm = ({
   setSearchResult,
   setHasFetched,
+  fetching,
   setFetching,
   setSearchFailed,
 }) => {
@@ -45,7 +47,7 @@ const CarSearchForm = ({
   }
 
   return (
-    <Box flex={1} as="form" onSubmit={handleSubmit(submit)}>
+    <Box as="form" onSubmit={handleSubmit(submit)}>
       {formError && <FormError>{formError}</FormError>}
       <FormGroup
         label={"Make (Manufacturer)"}
@@ -68,7 +70,7 @@ const CarSearchForm = ({
         </FormError>
       )}
 
-      <Flex width={1 / 2}>
+      <Flex>
         <FormGroup
           label={"Year"}
           type={"number"}
@@ -94,15 +96,19 @@ const CarSearchForm = ({
         my={3}
         alignItems="center"
       >
-        <Text mr={3} fontSize={3}>
-          Prefer Used?
+        <Text fontWeight={700} color="primary" mr={3} fontSize={3}>
+          Search for Used
         </Text>
         <Checkbox name="used" id="used" ref={register}></Checkbox>
       </Label>
 
-      <Button variant="primary" type="submit">
-        Search
-      </Button>
+      {fetching ? (
+        <Loading />
+      ) : (
+        <Button variant="primary" type="submit">
+          Search
+        </Button>
+      )}
     </Box>
   )
 }

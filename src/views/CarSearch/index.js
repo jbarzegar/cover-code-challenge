@@ -1,16 +1,34 @@
-import React, { useState, useEffect } from "react"
-import { Box, Text, Flex } from "rebass"
-import { Radio, Label } from "@rebass/forms"
+import React, { useState, useEffect, useRef } from "react"
+import { Box, Text, Flex, Card, Heading } from "rebass"
 import CurrencyFormat from "react-currency-format"
 import { get } from "lodash"
 
 import Link from "components/Link"
 import Container from "components/Container"
-import Loading from "components/Loading"
-import { useLocationContext } from "state/location"
 
 import VinSearchForm from "./Vin"
 import Car from "./Car"
+
+const Tab = ({ active = false, ...props }) => (
+  <Box
+    bg={active ? "primary" : "white"}
+    color={active ? "white" : "text"}
+    py={1}
+    px={4}
+    sx={{
+      cursor: "pointer",
+      transition: "background ease 0.3s, border-color ease 0.3s",
+      border: "1px solid",
+      borderColor: "primary",
+      "&:hover": {
+        color: "white",
+        borderColor: "secondary",
+        backgroundColor: "secondary",
+      },
+    }}
+    {...props}
+  ></Box>
+)
 
 const CarSearch = () => {
   // Either 'vin' or 'mmy'
@@ -22,11 +40,17 @@ const CarSearch = () => {
   const [hasFetched, setHasFetched] = useState(false)
   const [result, setResult] = useState([])
   const [avgPrice, setAvgPrice] = useState()
-  const { currentLocation } = useLocationContext()
+  const resultsRef = useRef()
 
   useEffect(() => {
     localStorage.setItem("searchBy", searchingBy)
   }, [searchingBy])
+
+  useEffect(() => {
+    if (hasFetched) {
+      resultsRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [hasFetched])
 
   useEffect(() => {
     if (fetching) {
@@ -58,6 +82,7 @@ const CarSearch = () => {
     mmy: () => (
       <Car
         setHasFetched={setHasFetched}
+        fetching={fetching}
         setFetching={setFetching}
         setSearchResult={setResult}
         setSearchFailed={setSearchFailed}
@@ -68,6 +93,7 @@ const CarSearch = () => {
         <Text fontSize={3}>Search by VIN</Text>
         <VinSearchForm
           setHasFetched={setHasFetched}
+          fetching={fetching}
           setFetching={setFetching}
           setSearchResult={setResult}
           setSearchFailed={setSearchFailed}
@@ -77,56 +103,44 @@ const CarSearch = () => {
   }
 
   return (
-    <Container alignItems="flex-start" as={Flex}>
-      <Flex
-        flex={2}
+    <Container
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="flex-start"
+      as={Flex}
+    >
+      <Card
+        m="auto"
+        p={5}
         flexDirection="column"
         justifyContent="space-between"
         mt={4}
       >
-        <Text mb={2} fontSize={6}>
-          Search For Vehicle
-        </Text>
-        <Flex mb={2}>
-          <Text pr={1}>Currently Looking in</Text>
-          <Text pr={1}>{currentLocation.components.city}</Text>
-          <Text> {currentLocation.components.neighbourhood || ""}</Text>
-        </Flex>
-        <Link mb={4} to="/city">
-          Change Location
-        </Link>
-
-        <Text mb={3} fontSize={2}>
+        <Heading fontWeight={700} mb={4} fontSize={6}>
+          Search For a Vehicle
+        </Heading>
+        <Text fontWeight="bold" mb={3} fontSize={2}>
           Search by:
         </Text>
         <Flex>
-          <Label width="150px" mr={1}>
-            <Text>VIN</Text>
-            <Radio
-              ml={3}
-              checked={searchingBy === "vin"}
-              onChange={e => setSearchingBy("vin")}
-              name="search_by"
-              id="vin"
-            />
-          </Label>
-          <Label>
-            <Text>Make/Model/Year</Text>
-            <Radio
-              checked={searchingBy === "mmy"}
-              onChange={e => setSearchingBy("mmy")}
-              name="search_by"
-              id="mmy"
-              value="mmy"
-            />
-          </Label>
+          <Tab
+            onClick={() => setSearchingBy("mmy")}
+            active={searchingBy === "mmy"}
+          >
+            Make/Model/Year
+          </Tab>
+          <Tab
+            onClick={() => setSearchingBy("vin")}
+            active={searchingBy === "vin"}
+          >
+            VIN
+          </Tab>
         </Flex>
 
         {searchComponents[searchingBy]()}
-      </Flex>
+      </Card>
 
-      <Box flex={2} py={4}>
-        {fetching && <Loading />}
+      <Box flex={2} py={4} ref={resultsRef}>
         {searchFailed && (
           <Text fontSize={3}>
             Sorry, something went wrong. (PS. May be getting rate limited)
@@ -145,7 +159,7 @@ const CarSearch = () => {
                 thousandSeparator
                 prefix={"$"}
                 renderText={value => (
-                  <Text my={4} fontSize={3}>
+                  <Text fontWeight={700} my={4} fontSize={3}>
                     Average listing price: {value}
                   </Text>
                 )}
