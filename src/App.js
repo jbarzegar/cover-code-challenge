@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react"
+import Navbar from "components/Navbar"
+import { useRoute, useLocation, Redirect } from "wouter"
+import { useLocationContext } from "./state/location"
 
-function App() {
+import Router from "./Router"
+
+const App = () => {
+  const { currentLocation } = useLocationContext()
+  const [match] = useRoute("/city")
+  const [, setLocation] = useLocation()
+
+  const shouldFetchCity = currentLocation === {} || !currentLocation.formatted
+
+  useEffect(() => {
+    if (shouldFetchCity && !match) {
+      setLocation("/city")
+    }
+  }, [shouldFetchCity, match, setLocation])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      {!shouldFetchCity && <Navbar />}
+      <Router />
+    </>
+  )
 }
 
-export default App;
+export default App

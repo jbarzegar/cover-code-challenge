@@ -3,13 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.17",
+    "@material/react-material-icon": "^0.15.0",
+    "@rebass/forms": "^4.0.5",
+    "@rebass/preset": "^4.0.5",
+    "emotion-theming": "^10.0.17",
+    "http-proxy-middleware": "^0.20.0",
+    "husky": "^3.0.5",
+    "lodash": "^4.17.15",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "query-string": "^6.8.3",
     "react": "^16.9.0",
+    "react-currency-format": "^1.0.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.1.1"
+    "react-hook-form": "^3.23.5",
+    "react-loading": "^2.0.3",
+    "react-scripts": "3.1.1",
+    "rebass": "^4.0.5",
+    "serve": "^11.1.0",
+    "shleep": "^1.0.5",
+    "wouter": "^2.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "serve": "serve -s build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
