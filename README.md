@@ -25,9 +25,6 @@ for calculating average price for the user entered and similar vehicles.
 
 ### To run
 
-I left the .env file in the code base so you can use those api keys.
-Ended up using throwaway accounts for both marketshare and open cage so sharing keys should be alright at least for this.
-
 ```
   yarn
   yarn build
@@ -44,7 +41,7 @@ or
 
 ### Dev notes
 
-Due to time constraints I couldn't apply the level of visual polish that I felt was appropriate.
+Due to time constraints I couldn't apply the level of visual polish that I felt was appropriate. Although I did try to borrow from Cover's design. I used the same red and blue, kept the typography similar and tried to keep spacing between elements close.
 
 I wanted to prioritize making a seamless experience, Especially with switching locations/searching for locations. Thus I left the visuals a little simpler to prioritize the overall UX
 
@@ -55,6 +52,6 @@ If I had more time/This was more than a tech challenge There's a number of thing
 - Better handle api rate limiting
 - Create a view to allow the user to compare prices between a set of listings
 - Sort listings by distance, longest to shortest by default. Allowing the user to configure as they see fit.
-- Use typescript to keep track of props/context types
+- Use Typescript to keep track of props/context types
 
 This was also a pretty fun learning experience as I have virtually zero knowledge on cars...

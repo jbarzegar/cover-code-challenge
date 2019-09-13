@@ -6,6 +6,7 @@ import { get } from "lodash"
 import Link from "components/Link"
 import Container from "components/Container"
 
+import { useListingsContext } from "state/listings"
 import VinSearchForm from "./Vin"
 import Car from "./Car"
 
@@ -38,9 +39,9 @@ const CarSearch = () => {
   const [fetching, setFetching] = useState()
   const [searchFailed, setSearchFailed] = useState(false)
   const [hasFetched, setHasFetched] = useState(false)
-  const [result, setResult] = useState([])
   const [avgPrice, setAvgPrice] = useState()
   const resultsRef = useRef()
+  const { listings, setListings } = useListingsContext()
 
   useEffect(() => {
     localStorage.setItem("searchBy", searchingBy)
@@ -65,18 +66,18 @@ const CarSearch = () => {
   }, [searchFailed])
 
   useEffect(() => {
-    if (result.length) {
+    if (listings.length) {
       // Get the average price for all shown listings
-      const sum = result
+      const sum = listings
         .filter(x => !!x.price)
         .map(x => x.price)
         .reduce((prev, next) => prev + next, 0)
 
-      setAvgPrice((sum / result.length).toFixed(2))
+      setAvgPrice((sum / listings.length).toFixed(2))
     }
-  }, [result])
+  }, [listings])
 
-  const isEmpty = hasFetched && result.length <= 0
+  const isEmpty = hasFetched && listings.length <= 0
 
   const searchComponents = {
     mmy: () => (
@@ -84,7 +85,7 @@ const CarSearch = () => {
         setHasFetched={setHasFetched}
         fetching={fetching}
         setFetching={setFetching}
-        setSearchResult={setResult}
+        setSearchResult={setListings}
         setSearchFailed={setSearchFailed}
       />
     ),
@@ -95,7 +96,7 @@ const CarSearch = () => {
           setHasFetched={setHasFetched}
           fetching={fetching}
           setFetching={setFetching}
-          setSearchResult={setResult}
+          setSearchResult={setListings}
           setSearchFailed={setSearchFailed}
         />
       </Box>
@@ -138,6 +139,12 @@ const CarSearch = () => {
         </Flex>
 
         {searchComponents[searchingBy]()}
+
+        {isEmpty && (
+          <Text color="red" fontSize={3}>
+            No Listings found
+          </Text>
+        )}
       </Card>
 
       <Box flex={2} py={4} ref={resultsRef}>
@@ -146,11 +153,7 @@ const CarSearch = () => {
             Sorry, something went wrong. (PS. May be getting rate limited)
           </Text>
         )}
-        {isEmpty ? (
-          <>
-            <Text fontSize={3}>No Listings found</Text>
-          </>
-        ) : (
+        {!isEmpty && (
           <>
             {avgPrice && (
               <CurrencyFormat
@@ -167,10 +170,10 @@ const CarSearch = () => {
             )}
 
             {hasFetched && (
-              <Text fontSize={4}>Found {result.length} Listings:</Text>
+              <Text fontSize={4}>Found {listings.length} Listings:</Text>
             )}
 
-            {result.map(listing => (
+            {listings.map(listing => (
               <Box my={3} key={listing.id}>
                 <Link to={`/listing/${listing.id}`}>
                   <Text mb={1} fontSize={4}>

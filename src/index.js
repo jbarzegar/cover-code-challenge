@@ -3,6 +3,7 @@ import { render } from "react-dom"
 import { ThemeProvider } from "emotion-theming"
 import theme from "@rebass/preset"
 import { LocationProvider } from "./state/location"
+import { ListingsProvider } from "./state/listings"
 import "./index.css"
 
 import App from "./App"
@@ -21,7 +22,9 @@ render(
     }}
   >
     <LocationProvider>
-      <App />
+      <ListingsProvider>
+        <App />
+      </ListingsProvider>
     </LocationProvider>
   </ThemeProvider>,
   document.getElementById("root")

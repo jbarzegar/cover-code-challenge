@@ -3,7 +3,7 @@ import sendRequest from "utils/sendRequest"
 
 // Fetch location data via https://opencagedata.com/api
 // This function supports both reverse and forwards geocoding
-export const useLocationFetcher = ({ setFetching, setLocation }) =>
+export const useLocationFetcher = ({ setLocation }) =>
   useCallback(
     async location => {
       const params = {
@@ -12,7 +12,6 @@ export const useLocationFetcher = ({ setFetching, setLocation }) =>
         limit: 5,
       }
 
-      setFetching(true)
       const data = await sendRequest("/opencagedata", {
         params,
         handleResponse: resp => resp.json(),
@@ -26,7 +25,6 @@ export const useLocationFetcher = ({ setFetching, setLocation }) =>
       })
 
       setLocation(data.results)
-      setFetching(false)
     },
-    [setLocation, setFetching]
+    [setLocation]
   )
