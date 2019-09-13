@@ -18,6 +18,7 @@ const buttonStyle = {
 
 export default () => {
   const [shouldDetectLocation, setShouldDetectLocation] = useState(false)
+  const [autoDetectFailed, setAutoDetectedFailed] = useState(false)
   const [enterManually, setEnterManually] = useState(false)
   const [location, setLocation] = useState()
   const [locationOutsideUSA, setLocationOutsideUSA] = useState(false)
@@ -52,11 +53,12 @@ export default () => {
             fetchLocationData(`${coords.latitude}, ${coords.longitude}`)
           },
           err => {
-            console.warn(err)
+            setShouldDetectLocation(false)
+            setAutoDetectedFailed(true)
             setEnterManually(true)
           },
           {
-            timeout: 6000,
+            timeout: 1000,
             enableHighAccuracy: true,
           }
         )
@@ -167,6 +169,11 @@ export default () => {
 
       {enterManually && !shouldDetectLocation && (
         <>
+          {autoDetectFailed && (
+            <Text fontSize={3} color="red" fontWeight={700} mb={3}>
+              Sorry! We couldn't get your location automatically
+            </Text>
+          )}
           <Heading mb={3} fontSize={5}>
             Enter your location
           </Heading>
