@@ -1,0 +1,10 @@
+{
+  "public": "build",
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/opencagedata",
+      "destination": "https://api.opencagedata.com/geocode/v1/json"
+    }
+  ]
+}
