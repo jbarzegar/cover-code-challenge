@@ -43,7 +43,7 @@ const CarSearch = () => {
   const [hasFetched, setHasFetched] = useState(false)
   const [avgPrice, setAvgPrice] = useState()
   const [preferUsed, setPreferUsed] = useState(
-    localStorage.getItem("preferUsed") || false
+    localStorage.getItem("preferUsed") === "true"
   )
 
   const resultsRef = useRef()
