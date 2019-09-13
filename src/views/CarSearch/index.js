@@ -36,7 +36,7 @@ const Tab = ({ active = false, ...props }) => (
 const CarSearch = () => {
   // Either 'vin' or 'mmy'
   const [searchingBy, setSearchingBy] = useState(
-    localStorage.getItem("searchBy") || "vin"
+    localStorage.getItem("searchBy") || "mmy"
   )
   const [fetching, setFetching] = useState()
   const [searchFailed, setSearchFailed] = useState(false)
