@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import Navbar from "components/Navbar"
-import { useRoute, useLocation, Redirect } from "wouter"
+import { useRoute, useLocation } from "wouter"
 import { useLocationContext } from "./state/location"
 
 import Router from "./Router"

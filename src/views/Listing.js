@@ -28,7 +28,7 @@ export default ({ params }) => {
         })
         .finally(() => setFetching(false))
     }
-  }, [listingId])
+  }, [fetching, listingId])
 
   if (!listing) {
     return (

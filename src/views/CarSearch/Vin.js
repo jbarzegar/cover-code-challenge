@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, Text, Flex, Box } from "rebass"
+import { Button, Flex, Box } from "rebass"
 import { Checkbox, Label } from "@rebass/forms"
 import useForm from "react-hook-form"
 import { uniqBy, capitalize } from "lodash"
