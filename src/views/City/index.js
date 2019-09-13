@@ -114,8 +114,8 @@ export default () => {
             <Box mr={2} as="span" role="img" aria-label="Waving hand">
               👋
             </Box>
-            Hi there! Just before we get started we need to get an idea of where
-            you're located.
+            Hi there! Just before we get started, we need to get an idea of
+            where you're located.
           </Heading>
         </Box>
       )}
@@ -194,7 +194,7 @@ export default () => {
           </Button>
 
           <Text mt={5} mx="auto" fontWeight={700} textAlign="center">
-            Please note you must be located in the{" "}
+            Please note you must be located in the
             <Box
               as="span"
               mx={1}
