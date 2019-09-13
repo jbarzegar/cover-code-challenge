@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"
 import { Box, Text, Flex, Card, Heading } from "rebass"
+import { Checkbox, Label } from "@rebass/forms"
 import CurrencyFormat from "react-currency-format"
 import { get } from "lodash"
 
+import { FormHeading } from "components/Form"
 import Link from "components/Link"
 import Container from "components/Container"
 
@@ -40,12 +42,20 @@ const CarSearch = () => {
   const [searchFailed, setSearchFailed] = useState(false)
   const [hasFetched, setHasFetched] = useState(false)
   const [avgPrice, setAvgPrice] = useState()
+  const [preferUsed, setPreferUsed] = useState(
+    localStorage.getItem("preferUsed") || false
+  )
+
   const resultsRef = useRef()
   const { listings, setListings } = useListingsContext()
 
   useEffect(() => {
     localStorage.setItem("searchBy", searchingBy)
   }, [searchingBy])
+
+  useEffect(() => {
+    localStorage.setItem("preferUsed", preferUsed)
+  }, [preferUsed])
 
   useEffect(() => {
     if (hasFetched) {
@@ -87,19 +97,18 @@ const CarSearch = () => {
         setFetching={setFetching}
         setSearchResult={setListings}
         setSearchFailed={setSearchFailed}
+        preferUsed={preferUsed}
       />
     ),
     vin: () => (
-      <Box my={4}>
-        <Text fontSize={3}>Search by VIN</Text>
-        <VinSearchForm
-          setHasFetched={setHasFetched}
-          fetching={fetching}
-          setFetching={setFetching}
-          setSearchResult={setListings}
-          setSearchFailed={setSearchFailed}
-        />
-      </Box>
+      <VinSearchForm
+        setHasFetched={setHasFetched}
+        fetching={fetching}
+        setFetching={setFetching}
+        setSearchResult={setListings}
+        setSearchFailed={setSearchFailed}
+        preferUsed={preferUsed}
+      />
     ),
   }
 
@@ -137,6 +146,25 @@ const CarSearch = () => {
             VIN
           </Tab>
         </Flex>
+
+        <Label
+          css={`
+            cursor: pointer;
+          `}
+          mt={4}
+          mb={2}
+          alignItems="center"
+        >
+          <FormHeading color="primary" mr={3}>
+            Prefer Used
+          </FormHeading>
+          <Checkbox
+            checked={preferUsed}
+            onChange={() => setPreferUsed(preferred => !preferred)}
+            name="used"
+            id="used"
+          />
+        </Label>
 
         {searchComponents[searchingBy]()}
 
@@ -177,7 +205,7 @@ const CarSearch = () => {
               <Box my={3} key={listing.id}>
                 <Link to={`/listing/${listing.id}`}>
                   <Text mb={1} fontSize={4}>
-                    {listing.heading || listing.seller_name_o}
+                    {listing.heading}
                   </Text>
                   <Text fontSize={3} color="text">
                     {get(listing, "dealer.city") || listing.city}

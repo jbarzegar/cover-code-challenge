@@ -13,17 +13,20 @@ import Link from "components/Link"
 const InfoText = props => <Text flex={1} my={3} fontSize={3} {...props} />
 
 export default ({ params }) => {
+  const [fetching, setFetching] = useState(false)
   const [fetchFailed, setFailed] = useState(false)
   const [listing, setListing] = useState()
   const listingId = get(params, "listingId")
 
   useEffect(() => {
-    if (listingId) {
+    if (listingId && !fetching) {
+      setFetching(true)
       checkListing(listingId)
         .then(l => setListing(l))
-        .catch(err => {
+        .catch(() => {
           setFailed(true)
         })
+        .finally(() => setFetching(false))
     }
   }, [listingId])
 
@@ -67,6 +70,8 @@ export default ({ params }) => {
         fontSize={4}
         fontWeight={700}
         as="a"
+        target="_blank"
+        rel="noopener noreferrer"
         href={listing.vdp_url}
       >
         <Flex alignItems="center">
@@ -123,7 +128,13 @@ export default ({ params }) => {
             {listing.dealer.city} {listing.dealer.state}
           </InfoText>
 
-          <Text fontSize={3} as="a" href={`https://${listing.dealer.website}`}>
+          <Text
+            fontSize={3}
+            rel="noopener noreferrer"
+            target="_blank"
+            as="a"
+            href={`https://${listing.dealer.website}`}
+          >
             Dealership Website
           </Text>
         </Box>

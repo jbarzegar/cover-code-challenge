@@ -9,6 +9,7 @@ export const useLocationFetcher = ({ setLocation }) =>
       const params = {
         key: process.env.REACT_APP_OPEN_CAGE_TOKEN,
         q: location,
+        bounds: "-168.39844,24.84657,-50.62500,80.05805",
         limit: 5,
       }
 

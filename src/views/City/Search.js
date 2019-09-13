@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { Box, Text } from "rebass"
-import { Input, Label } from "@rebass/forms"
+import { Box, Text, Button } from "rebass"
+import { Input } from "@rebass/forms"
 import { uniqueId } from "lodash"
 
 import Loading from "components/Loading"
@@ -37,6 +37,10 @@ const Search = ({ saveLoc }) => {
           placeholder={"address or zip/postal code"}
           onChange={e => setSearch(e.currentTarget.value)}
         ></Input>
+
+        <Button my={3} type="submit">
+          Search
+        </Button>
       </Box>
 
       {fetching ? (

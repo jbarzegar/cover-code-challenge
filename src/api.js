@@ -5,32 +5,26 @@ export const defaultParams = {
   api_key: process.env.REACT_APP_API_MARKET_CHECK_TOKEN,
 }
 
-export const checkVin = vin =>
-  sendRequest(`${apiHost}/history/${vin}`, {
-    params: defaultParams,
+export const checkVin = ({ vin, ...data }) =>
+  sendRequest(`${apiHost}/search`, {
+    params: {
+      ...defaultParams,
+      ...data,
+      vins: vin,
+      start: 0,
+      row: 10,
+    },
     handleResponse: resp => resp.json(),
   })
 
 // MMY = make model year
-export const checkMMY = async ({ data, radius = 10 }) => {
+export const checkMMY = async ({ data }) => {
   if (!data) return
-
-  const params = Object.entries(data).reduce((obj, [key, value]) => {
-    if (key === "used") {
-      // The value of 'used' is a boolean
-      obj["car_type"] = !!value ? "used" : "new"
-    } else {
-      obj[key] = value
-    }
-
-    return obj
-  }, {})
 
   return sendRequest(`${apiHost}/search`, {
     params: {
-      radius,
       ...defaultParams,
-      ...params,
+      ...data,
     },
     handleResponse: resp => resp.json(),
   })

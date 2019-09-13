@@ -38,9 +38,9 @@ export default ({ hidden = false }) => {
           alignItems="center"
         >
           <MaterialIcon icon="location_city" />
-          <Text>{`${currentLocation.components.city} ${currentLocation
-            .components.neighbourhood ||
-            currentLocation.components.state}`}</Text>
+          <Text>{`${currentLocation.components.city ||
+            currentLocation.components.county} ${currentLocation.components
+            .neighbourhood || currentLocation.components.state}`}</Text>
           <Button
             sx={{
               fontSize: 0,

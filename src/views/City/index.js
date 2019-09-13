@@ -16,6 +16,19 @@ const buttonStyle = {
   },
 }
 
+const OnboardingHeading = props => (
+  <Heading
+    sx={{
+      maxWidth: 800,
+    }}
+    mx="auto"
+    mb={5}
+    width={"60%"}
+    fontSize={5}
+    {...props}
+  />
+)
+
 export default () => {
   const [shouldDetectLocation, setShouldDetectLocation] = useState(false)
   const [autoDetectFailed, setAutoDetectedFailed] = useState(false)
@@ -30,7 +43,10 @@ export default () => {
 
   const saveLoc = useCallback(
     locData => {
-      if (locData.components.country !== "USA") {
+      if (
+        locData.components.country !== "USA" &&
+        locData.components.country !== "Canada"
+      ) {
         setLocationOutsideUSA(true)
       } else {
         setCurrentLocation(locData)
@@ -82,10 +98,10 @@ export default () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Heading mx="auto" mb={5} width={1 / 3} fontSize={5}>
-          Sorry but you must be located in the USA in order to use this
-          application.
-        </Heading>
+        <OnboardingHeading>
+          Sorry but you must be located in the USA or Canada in order to use
+          this application.
+        </OnboardingHeading>
 
         <Button
           sx={buttonStyle}
@@ -110,7 +126,7 @@ export default () => {
     >
       {renderIntro && !firstRunComplete && (
         <Box>
-          <Heading mx="auto" mb={5} width={1 / 3} fontSize={5}>
+          <OnboardingHeading>
             {/* It is a span. But eslint is being stubborn */}
             {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
             <Box mr={2} as="span" role="img" aria-label="Waving hand">
@@ -118,7 +134,7 @@ export default () => {
             </Box>
             Hi there! Just before we get started, we need to get an idea of
             where you're located.
-          </Heading>
+          </OnboardingHeading>
         </Box>
       )}
 
@@ -210,7 +226,7 @@ export default () => {
                 color: "secondary",
               }}
             >
-              USA
+              USA or Canada
             </Box>
             to use AutoFind.
           </Text>
