@@ -22,7 +22,7 @@
     "react-dom": "^16.9.0",
     "react-hook-form": "^3.23.9",
     "react-loading": "^2.0.3",
-    "react-scripts": "3.1.1",
+    "react-scripts": "3.1.2",
     "rebass": "^4.0.5",
     "shleep": "^1.0.5",
     "wouter": "^2.2.1"
